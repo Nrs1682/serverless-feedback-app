@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Panel</title>
+  <style>
+    body { font-family: Arial; background: #0f172a; color: white; }
+    table { width: 90%; margin: auto; border-collapse: collapse; }
+    th, td { border: 1px solid white; padding: 8px; }
+  </style>
+</head>
+<body>
+
+<h2 style="text-align:center">Admin Feedback Dashboard</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Message</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody id="table-body"></tbody>
+</table>
+
+<script>
+const API_BASE = "https://v6vopdjku7.execute-api.ap-south-1.amazonaws.com/production";
+
+fetch(API_BASE + "/admin/feedback")
+  .then(res => res.json())
+  .then(data => {
+    let rows = "";
+    data.forEach(item => {
+      rows += `
+        <tr>
+          <td>${item.name}</td>
+          <td>${item.email}</td>
+          <td>${item.message}</td>
+          <td>${item.createdAt}</td>
+        </tr>
+      `;
+    });
+    document.getElementById("table-body").innerHTML = rows;
+  });
+</script>
+
+</body>
+</html>
